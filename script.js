@@ -1,12 +1,12 @@
 // CONFIGURAÇÃO FIREBASE
 const firebaseConfig = {
-  apiKey: "COLE_AQUI_SUA_API_KEY_DO_FIREBASE",
+  apiKey: "COLE_AQUI_SUA_API_KEY", // copie do Firebase
   authDomain: "stop-online-teste.firebaseapp.com",
   databaseURL: "https://stop-online-teste-default-rtdb.firebaseio.com",
   projectId: "stop-online-teste",
   storageBucket: "stop-online-teste.appspot.com",
-  messagingSenderId: "COLE_AQUI_SEU_SENDER_ID",
-  appId: "COLE_AQUI_SEU_APP_ID"
+  messagingSenderId: "COLE_AQUI_SEU_SENDER_ID", // copie do Firebase
+  appId: "COLE_AQUI_SEU_APP_ID" // copie do Firebase
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -19,7 +19,7 @@ let timeLeft = 60;
 let playerName = '';
 let isHost = false;
 
-// ELEMENTOS
+// ELEMENTOS HTML
 const loginScreen = document.getElementById('loginScreen');
 const waitingScreen = document.getElementById('waitingScreen');
 const gameScreen = document.getElementById('gameScreen');
@@ -67,13 +67,13 @@ function listenPlayers(){
   });
 }
 
-// HOST INICIA JOGO
+// HOST INICIA RODADA
 startGameBtn.onclick = ()=>{
   startGameBtn.style.display = 'none';
   db.ref('currentRound').set({letter: letters[Math.floor(Math.random()*letters.length)], started:true});
 }
 
-// ESCUTA RODADA
+// ESCUTAR RODADA
 db.ref('currentRound').on('value', snap=>{
   const data = snap.val();
   if(!data||!data.started) return;
