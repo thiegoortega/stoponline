@@ -1,17 +1,15 @@
-// CONFIGURAÇÃO FIREBASE
 const firebaseConfig = {
-  apiKey: "COLE_AQUI_SUA_API_KEY", // copie do Firebase
+  apiKey: "AIzaSyD08DDmIYxtGw713tIzkGA-zu6FuqefcbU",
   authDomain: "stop-online-teste.firebaseapp.com",
   databaseURL: "https://stop-online-teste-default-rtdb.firebaseio.com",
   projectId: "stop-online-teste",
   storageBucket: "stop-online-teste.appspot.com",
-  messagingSenderId: "COLE_AQUI_SEU_SENDER_ID", // copie do Firebase
-  appId: "COLE_AQUI_SEU_APP_ID" // copie do Firebase
+  messagingSenderId: "312675330360",
+  appId: "1:312675330360:web:775428330a1386aac179cd"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// LETRAS E VARIÁVEIS
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let currentLetter = '';
 let timerInterval;
@@ -19,7 +17,6 @@ let timeLeft = 60;
 let playerName = '';
 let isHost = false;
 
-// ELEMENTOS HTML
 const loginScreen = document.getElementById('loginScreen');
 const waitingScreen = document.getElementById('waitingScreen');
 const gameScreen = document.getElementById('gameScreen');
@@ -34,7 +31,6 @@ const timerFill = document.getElementById('timerFill');
 
 const categories = ['nome','pais','animal','objeto'];
 
-// LOGIN
 document.getElementById('joinBtn').onclick = () => {
   const nameInput = document.getElementById('playerName').value.trim();
   if(!nameInput) return alert("Digite seu nome!");
@@ -55,7 +51,6 @@ document.getElementById('joinBtn').onclick = () => {
   listenPlayers();
 };
 
-// LISTA DE JOGADORES
 function listenPlayers(){
   db.ref('players').on('value', snap=>{
     const data = snap.val()||{};
@@ -67,13 +62,11 @@ function listenPlayers(){
   });
 }
 
-// HOST INICIA RODADA
 startGameBtn.onclick = ()=>{
   startGameBtn.style.display = 'none';
   db.ref('currentRound').set({letter: letters[Math.floor(Math.random()*letters.length)], started:true});
 }
 
-// ESCUTAR RODADA
 db.ref('currentRound').on('value', snap=>{
   const data = snap.val();
   if(!data||!data.started) return;
@@ -84,7 +77,6 @@ db.ref('currentRound').on('value', snap=>{
   startTimer();
 });
 
-// TIMER
 function startTimer(){
   timeLeft = 60;
   timeLeftSpan.innerText = timeLeft;
@@ -98,7 +90,6 @@ function startTimer(){
   },1000);
 }
 
-// ENVIAR RESPOSTAS
 document.getElementById('submitBtn').onclick = endRound;
 
 function endRound(){
@@ -111,7 +102,6 @@ function endRound(){
   showResults();
 }
 
-// RESULTADOS
 function showResults(){
   resultsScreen.style.display = 'block';
   rankingTableBody.innerHTML = '';
@@ -144,7 +134,6 @@ function showResults(){
   });
 }
 
-// PRÓXIMA RODADA
 document.getElementById('nextRoundBtn').onclick = ()=>{
   if(isHost){
     db.ref('currentRound').set({letter: letters[Math.floor(Math.random()*letters.length)], started:true});
